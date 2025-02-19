@@ -1,10 +1,13 @@
 Flask==3.0.2
 gunicorn==21.2.0
 pandas==2.2.1
-numpy==2.2.2
+numpy==1.26.4  # Compatible with pandas
 networkx==3.2.1
 geopandas==0.14.3
 matplotlib==3.8.3
 folium==0.15.1
 shapely==2.0.2
 scipy==1.12.0
+requests==2.31.0  # If using APIs
+pyarrow==15.0.0  # If handling CSV/Parquet
+ujson==5.9.0  # Faster JSON parsing
