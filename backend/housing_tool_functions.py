@@ -243,104 +243,6 @@ def find_routes_by_criteria(G, connections_df, start, max_stops, max_travel_time
     
     return all_routes, route_names, route_times, filtered_routes, reachable_stations, unique_end_routes
 
-# --- Helper Functions ---
-
-def get_start_node(G, start):
-    """
-    Given a graph G and a start value (either an int station code or a station name),
-    returns the corresponding node (as an int) from G.
-    """
-    # Try converting to int:
-    try:
-        candidate = int(start)
-        if candidate in G.nodes:
-            return candidate
-    except (ValueError, TypeError):
-        pass
-    # Otherwise, search by station name (case-insensitive)
-    for node, attr in G.nodes(data=True):
-        if "name" in attr and attr["name"].lower() == start.lower():
-            return node
-    raise Exception(f"Station '{start}' not found in the graph.")
-
-def find_maximal_routes(G, start, max_stops=8):
-    """
-    Performs a DFS from the starting node (resolved from the given start value)
-    to collect all simple routes (no cycles) with at most max_stops nodes.
-    Then, filters out any route that is a prefix of a longer route.
-    
-    Args:
-        G (networkx.Graph): The graph.
-        start (int or str): The starting station (as station code or station name).
-        max_stops (int): Maximum number of nodes allowed in a route.
-        
-    Returns:
-        list of list of int: All maximal routes (each route is a list of station IDs).
-    """
-    start_node = get_start_node(G, start)
-    all_routes = []
-    
-    def dfs(current, path):
-        if len(path) == max_stops:
-            all_routes.append(path)
-            return
-        extended = False
-        for neighbor in G.neighbors(current):
-            if neighbor not in path:  # avoid cycles
-                extended = True
-                dfs(neighbor, path + [neighbor])
-        if not extended and len(path) > 1:
-            all_routes.append(path)
-    
-    dfs(start_node, [start_node])
-    
-    # Filter out routes that are prefixes of longer routes.
-    maximal_routes = []
-    for route in all_routes:
-        if not any((len(other) > len(route)) and (other[:len(route)] == route) for other in all_routes):
-            maximal_routes.append(route)
-    return maximal_routes
-
-def calculate_route_time(route, connections_df):
-    """
-    Given a route (list of station IDs) and a connections DataFrame,
-    computes the total travel time for the route by summing travel times
-    for each consecutive pair. The function checks for the connection in either
-    direction.
-    
-    Args:
-        route (list of int): A route (list of station IDs).
-        connections_df (pd.DataFrame): DataFrame with columns "station1", "station2", and "time".
-        
-    Returns:
-        float: The total travel time, or None if any connection is missing.
-    """
-    total_time = 0.0
-    for i in range(len(route) - 1):
-        s1, s2 = route[i], route[i+1]
-        # Look up connection in the given order.
-        matching = connections_df[(connections_df["station1"] == s1) & (connections_df["station2"] == s2)]
-        if matching.empty:
-            # Try the reverse order.
-            matching = connections_df[(connections_df["station1"] == s2) & (connections_df["station2"] == s1)]
-        if matching.empty:
-            print(f"Warning: No connection found between {s1} and {s2}.")
-            return None
-        total_time += matching["time"].min()
-    return total_time
-
-def convert_route_to_names(G, route):
-    """
-    Converts a route (list of station IDs) to a list of station names.
-    
-    Args:
-        G (networkx.Graph): The graph.
-        route (list of int): A route as station IDs.
-        
-    Returns:
-        list of str: Station names corresponding to the route.
-    """
-    return [G.nodes[node].get("name", str(node)) for node in route]
 
 def filter_routes_by_endpoint_not_visited_elsewhere(routes):
     """
@@ -390,38 +292,6 @@ def get_all_reachable_stations(routes):
         reachable.update(route)
     return reachable
 
-def find_routes_by_criteria(G, connections_df, start, max_stops, max_travel_time):
-    # 1. Find all routes from the starting station.
-    all_routes = find_maximal_routes(G, start, max_stops)
-    
-    # 2. Compute total travel times for each route.
-    route_times = [calculate_route_time(route, connections_df) for route in all_routes]
-    
-    # Debug: Print route times and their types
-    for route, t in zip(all_routes, route_times):
-        print(f"DEBUG: Route {route} -> travel time: {t} (type: {type(t)})")
-        print(f"DEBUG: max_travel_time: {max_travel_time} (type: {type(max_travel_time)})")
-    
-    # 4. Filter routes by travel time threshold.
-    try:
-        filtered_routes = [
-            route for route, t in zip(all_routes, route_times)
-            if t is not None and t <= max_travel_time
-        ]
-    except Exception as e:
-        print("DEBUG: Error in filtering routes:")
-        for route, t in zip(all_routes, route_times):
-            print(f"  Route: {route}, travel time: {t} (type: {type(t)})")
-            print(f"  max_travel_time: {max_travel_time} (type: {type(max_travel_time)})")
-        raise e
-
-    # 5. Compute the set of all unique stations reached.
-    reachable_stations = get_all_reachable_stations(all_routes)
-    
-    # 6. Filter for routes with unique endpoints.
-    unique_end_routes = filter_routes_by_endpoint_not_visited_elsewhere(all_routes)
-    
-    return all_routes, route_names, route_times, filtered_routes, reachable_stations, unique_end_routes
 
 
 # --- Weight Function ---
@@ -632,13 +502,6 @@ def format_route_with_line_colors(G, route):
     return route_str
 
 
-
-def create_name_to_id_map(G):
-    """
-    Given a NetworkX graph G, returns a dictionary mapping each station's name (from the 'name' attribute)
-    to its corresponding node ID.
-    """
-    return {data.get("name"): node for node, data in G.nodes(data=True)}
 
 def format_route_simplified(G, route):
     """
