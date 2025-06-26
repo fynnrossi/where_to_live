@@ -40,6 +40,6 @@ Create a feature branch (git checkout -b feature-name).
 Commit changes (git commit -m "Added feature").
 Push to GitHub (git push origin feature-name).
 Open a Pull Request.
-License
+## License
 
-MIT License © 2025 Fynn Rossi
+This project is licensed under the [MIT License](LICENSE).
