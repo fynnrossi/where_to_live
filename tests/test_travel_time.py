@@ -41,3 +41,17 @@ def test_unreachable_destination():
     G.add_node(4, name="D")  # isolated node
     with pytest.raises(Exception, match="No connection from A to D"):
         compute_weekly_travel_time(G, pd.DataFrame(), "A", [("D", 1)])
+
+
+def test_compute_weekly_travel_time_multiple_destinations():
+    G = build_graph()
+    destinations = [("B", 1), ("C", 1), ("B", 2)]
+    total = compute_weekly_travel_time(G, pd.DataFrame(), "A", destinations)
+    assert total == 45
+
+
+def test_compute_weekly_travel_time_zero_visits():
+    G = build_graph()
+    destinations = [("B", 0), ("C", 2)]
+    total = compute_weekly_travel_time(G, pd.DataFrame(), "A", destinations)
+    assert total == 30

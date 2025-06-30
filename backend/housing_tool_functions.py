@@ -454,13 +454,15 @@ def compute_weekly_travel_time(G, connections_df, base_station, destinations_dat
         base_node = get_start_node(G, base_station)
     except Exception as e:
         raise Exception(f"Base station error: {e}")
+    # Compute all shortest-path distances from the base node once
+    distances = nx.single_source_dijkstra_path_length(G, base_node, weight=weight)
+
     total_weekly_time = 0.0
     for dest_name, visits in destinations_data:
         try:
             dest_node = get_start_node(G, dest_name)
         except Exception as e:
             raise Exception(f"Destination error: {e}")
-        distances = nx.single_source_dijkstra_path_length(G, base_node, weight=weight)
         travel_time = distances.get(dest_node)
         
         # Debugging print statements:
