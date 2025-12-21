@@ -1,45 +1,38 @@
-# where_to_live
-App to help in search for where to live
+# RightMove Filter
 
-# Travel Search Tool
-
-This is a **Flask-based web application** that helps users find optimal places to live based on their weekly travel locations and other filters. The tool calculates total travel times using a graph-based London transport network and suggests ideal locations to minimize travel.
+A lightweight Python toolkit for filtering and ranking property listings from Rightmove (or similar exports).
+It ships with a small sample dataset and a CLI so you can try the filters immediately.
 
 ## Features
-- **Find optimal living locations** based on travel frequency to different places.
-- **Calculate total weekly travel times** for different potential home locations.
-- **Filter results** by max travel time, max distance from a location, and other constraints.
-- **Interactive UI** for entering travel locations and visualizing results.
+- Parse listing payloads into a structured dataclass
+- Filter by price, bedrooms, travel time, must-have features, and excluded postcodes
+- Sort results by affordability while keeping better sized homes ahead of smaller ones at the same price
+- Command-line helper to experiment with filter combinations
 
-## Installation
+## Getting started
+1. Create and activate a virtual environment (optional but recommended).
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Run the sample filter against the bundled data:
+   ```bash
+   python scripts/filter_listings.py --min-bedrooms 2 --max-price 2200 --max-travel-time 45 --require parking
+   ```
 
-### 1. Clone the Repository
+## Package layout
+- `rightmove_filter/` – core package
+  - `models.py` – dataclass representing a listing with helpers for serialisation
+  - `filters.py` – filtering logic and criteria definition
+  - `io.py` – loading and writing listings to JSON
+- `data/sample_listings.json` – small fixture of listings for experimentation
+- `scripts/filter_listings.py` – CLI entrypoint demonstrating the filters
+- `tests/` – unit tests covering the filter behaviour and legacy travel time functions
+
+## Running tests
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-python3 -m venv venv
-source venv/bin/activate  # On Windows use: venv\Scripts\activate
-pip install -r requirements.txt
-python app.py
+pytest
 ```
 
-
-Configuration
-
-Modify config.py to adjust search parameters or default settings.
-Upload CSV files (london.stations.csv, london.connections.csv, etc.) if using custom transport data.
-Future Enhancements
-
-Google Maps / Apple Maps Integration for visualization.
-User authentication to save search history.
-Support for multiple cities beyond London.
-Contributing
-
-Fork the repo.
-Create a feature branch (git checkout -b feature-name).
-Commit changes (git commit -m "Added feature").
-Push to GitHub (git push origin feature-name).
-Open a Pull Request.
 ## License
-
-This project is licensed under the [MIT License](LICENSE).
+MIT
