@@ -6,7 +6,6 @@ import networkx as nx
 import pandas as pd
 import folium
 import time
-from IPython.display import display
 import branca.colormap as cm
 
 def build_graph_from_csv(stations_file, lines_file, connections_file):
@@ -443,8 +442,8 @@ def visualize_tube_routes(routes, station_data, line_colors, map_style="cartodbp
                 # Simulate animation delay (for effect)
                 time.sleep(0.5)
 
-    # Show the final map
-    display(tube_map)
+    # Return the map object so callers can decide how to render or export it
+    return tube_map
 
 
 def compute_weekly_travel_time(G, connections_df, base_station, destinations_data, weight=None):

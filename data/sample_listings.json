@@ -1,0 +1,50 @@
+[
+  {
+    "listing_id": "A1",
+    "price": 2100,
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "property_type": "flat",
+    "postcode": "N1 0AA",
+    "listing_url": "https://www.rightmove.co.uk/properties/A1",
+    "description": "Bright split-level flat near Angel station",
+    "travel_time_minutes": 35,
+    "features": ["balcony", "near tube", "parking"]
+  },
+  {
+    "listing_id": "B2",
+    "price": 1800,
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "property_type": "studio",
+    "postcode": "E2 8AA",
+    "listing_url": "https://www.rightmove.co.uk/properties/B2",
+    "description": "Warehouse conversion with exposed brick",
+    "travel_time_minutes": 42,
+    "features": ["wood floors", "exposed brick"]
+  },
+  {
+    "listing_id": "C3",
+    "price": 2400,
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "property_type": "house",
+    "postcode": "SW11 2AA",
+    "listing_url": "https://www.rightmove.co.uk/properties/C3",
+    "description": "Victorian terrace close to the park",
+    "travel_time_minutes": 28,
+    "features": ["garden", "near school", "parking"]
+  },
+  {
+    "listing_id": "D4",
+    "price": 1950,
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "property_type": "flat",
+    "postcode": "SE15 4AB",
+    "listing_url": "https://www.rightmove.co.uk/properties/D4",
+    "description": "Top floor apartment with roof terrace",
+    "travel_time_minutes": 55,
+    "features": ["roof terrace", "bike storage"]
+  }
+]
