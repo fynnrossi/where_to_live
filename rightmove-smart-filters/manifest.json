@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Rightmove Smart Filters",
+  "version": "0.1.0",
+  "description": "Overlay Rightmove search results with Jubilee line proximity filters and smart map controls.",
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.rightmove.co.uk/*",
+    "https://api.tfl.gov.uk/*"
+  ],
+  "background": {
+    "service_worker": "src/background/serviceWorker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.rightmove.co.uk/*"],
+      "js": ["src/content/content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["ui/panel.css"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_title": "Rightmove Smart Filters"
+  }
+}

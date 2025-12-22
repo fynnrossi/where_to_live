@@ -1,0 +1,101 @@
+.rm-smart-panel {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 99999;
+  width: 260px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  color: #2c2c2c;
+  padding: 12px 14px;
+}
+
+.rm-smart-panel h2 {
+  font-size: 16px;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rm-smart-panel .rm-smart-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+  gap: 8px;
+}
+
+.rm-smart-panel label {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.rm-smart-panel input[type="checkbox"] {
+  transform: scale(1.05);
+}
+
+.rm-smart-panel input[type="range"] {
+  width: 100%;
+}
+
+.rm-smart-panel select,
+.rm-smart-panel input[type="range"] {
+  flex: 1;
+}
+
+.rm-smart-panel .rm-smart-small {
+  font-size: 12px;
+  color: #666;
+}
+
+.rm-smart-panel .rm-smart-warning {
+  background: #fff7e6;
+  border: 1px solid #ffa940;
+  color: #ad4e00;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  display: none;
+}
+
+.rm-smart-panel .rm-smart-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: #f0f5ff;
+  color: #1d39c4;
+}
+
+.rm-smart-panel .rm-smart-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 10px 0;
+}
+
+.rm-smart-faded {
+  opacity: 0.35 !important;
+  position: relative;
+}
+
+.rm-smart-faded::after {
+  content: "Filtered";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #1d39c4;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.rm-smart-hidden {
+  display: none !important;
+}

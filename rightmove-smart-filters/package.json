@@ -1,0 +1,9 @@
+{
+  "name": "rightmove-smart-filters",
+  "version": "0.1.0",
+  "description": "Chrome extension that overlays Rightmove with Jubilee line proximity filters.",
+  "scripts": {
+    "lint": "echo 'Add your linter here'",
+    "build": "echo 'Static content script - no build step required'"
+  }
+}
